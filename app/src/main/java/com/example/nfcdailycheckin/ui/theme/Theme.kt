@@ -1,22 +1,24 @@
 package com.example.nfcdailycheckin.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 /* ---------------------------------------------------
    Farbkonzept:
    - Lila/Lavender = App-Identität
-   - Grün = Schweinehund besiegt ✅
+   - Grün = erledigt ✅
    - Rot = nicht erledigt ❌
-   - Dark Mode NICHT einfach invertiert, sondern gedämpft
+   - Dark Mode gedämpft
 --------------------------------------------------- */
 
 /* ---------- Light Theme ---------- */
 
 private val LightColorScheme = lightColorScheme(
-
     primary = Color(0xFF6B5BD2),
     onPrimary = Color.White,
 
@@ -37,13 +39,12 @@ private val LightColorScheme = lightColorScheme(
 
     surface = Color(0xFFF9F8FF),
     surfaceVariant = Color(0xFFEDE9FF),
-    onSurface = Color(0xFF171717)
+    onSurface = Color(0xFF171717),
 )
 
 /* ---------- Dark Theme ---------- */
 
 private val DarkColorScheme = darkColorScheme(
-
     primary = Color(0xFFCFC6FF),
     onPrimary = Color(0xFF1B1457),
 
@@ -64,7 +65,7 @@ private val DarkColorScheme = darkColorScheme(
 
     surface = Color(0xFF12121A),
     surfaceVariant = Color(0xFF232238),
-    onSurface = Color(0xFFF2F2F2)
+    onSurface = Color(0xFFF2F2F2),
 )
 
 /* ---------- Custom App Colors ---------- */
@@ -74,13 +75,13 @@ private val LightLavenderCard = Color(0xFFEAE6FF)
 private val DarkLavenderCard = Color(0xFF2A2744)
 
 // Statusfarben für Übersicht (❌ / ✅)
-val LightDoneGreen = Color(0xFF2E7D32)
-val DarkDoneGreen = Color(0xFF66BB6A)
+private val LightDoneGreen = Color(0xFF2E7D32)
+private val DarkDoneGreen = Color(0xFF66BB6A)
 
-val LightFailRed = Color(0xFFC62828)
-val DarkFailRed = Color(0xFFEF5350)
+private val LightFailRed = Color(0xFFC62828)
+private val DarkFailRed = Color(0xFFEF5350)
 
-/* ---------- Helper ---------- */
+/* ---------- Helpers ---------- */
 
 @Composable
 fun lavenderCardColor(): Color =
@@ -97,9 +98,7 @@ fun failColor(): Color =
 /* ---------- Theme Wrapper ---------- */
 
 @Composable
-fun DailyCheckinTheme(
-    content: @Composable () -> Unit
-) {
+fun DailyCheckinTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = if (isSystemInDarkTheme()) DarkColorScheme else LightColorScheme,
         typography = Typography(),
