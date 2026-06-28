@@ -6,6 +6,8 @@ import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 /* ---------------------------------------------------
@@ -81,27 +83,44 @@ private val DarkDoneGreen = Color(0xFF66BB6A)
 private val LightFailRed = Color(0xFFC62828)
 private val DarkFailRed = Color(0xFFEF5350)
 
+/* ---------- Aktueller Dunkel-Status für Helper ---------- */
+
+// Speichert, ob das aktuelle Theme dunkel ist – damit die Helper unten
+// (doneColor etc.) der App-Einstellung folgen, nicht nur dem System.
+private val LocalIsDark = compositionLocalOf { false }
+
 /* ---------- Helpers ---------- */
 
 @Composable
 fun lavenderCardColor(): Color =
-    if (isSystemInDarkTheme()) DarkLavenderCard else LightLavenderCard
+    if (LocalIsDark.current) DarkLavenderCard else LightLavenderCard
 
 @Composable
 fun doneColor(): Color =
-    if (isSystemInDarkTheme()) DarkDoneGreen else LightDoneGreen
+    if (LocalIsDark.current) DarkDoneGreen else LightDoneGreen
 
 @Composable
 fun failColor(): Color =
-    if (isSystemInDarkTheme()) DarkFailRed else LightFailRed
+    if (LocalIsDark.current) DarkFailRed else LightFailRed
 
 /* ---------- Theme Wrapper ---------- */
 
 @Composable
-fun DailyCheckinTheme(content: @Composable () -> Unit) {
-    MaterialTheme(
-        colorScheme = if (isSystemInDarkTheme()) DarkColorScheme else LightColorScheme,
-        typography = Typography(),
-        content = content
-    )
+fun DailyCheckinTheme(
+    themeMode: ThemeMode = ThemeMode.SYSTEM,
+    content: @Composable () -> Unit
+) {
+    val useDark = when (themeMode) {
+        ThemeMode.SYSTEM -> isSystemInDarkTheme()
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+    }
+
+    CompositionLocalProvider(LocalIsDark provides useDark) {
+        MaterialTheme(
+            colorScheme = if (useDark) DarkColorScheme else LightColorScheme,
+            typography = Typography(),
+            content = content
+        )
+    }
 }

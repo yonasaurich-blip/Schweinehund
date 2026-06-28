@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -39,6 +40,7 @@ fun HomeScreen(
     events: SharedFlow<HomeEvent>,
     onAdd: () -> Unit,
     onOpenTechNames: () -> Unit,
+    onOpenSettings: () -> Unit,
     onMenuResetToday: (Long) -> Unit,
     onMenuDelete: (Long) -> Unit,
 ) {
@@ -121,6 +123,7 @@ fun HomeScreen(
                 actions = {
                     IconButton(onClick = onAdd) { Icon(Icons.Default.Add, contentDescription = "Hinzufügen") }
                     IconButton(onClick = onOpenTechNames) { Icon(Icons.Default.Info, contentDescription = "Info") }
+                    IconButton(onClick = onOpenSettings) { Icon(Icons.Default.Settings, contentDescription = "Einstellungen") }
                 }
             )
         },
