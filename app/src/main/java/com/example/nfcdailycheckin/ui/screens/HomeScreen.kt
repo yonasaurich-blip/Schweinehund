@@ -23,6 +23,9 @@ import com.example.nfcdailycheckin.ui.HomeEvent
 import com.example.nfcdailycheckin.ui.HomeState
 import com.example.nfcdailycheckin.ui.UiTask
 import com.example.nfcdailycheckin.ui.theme.lavenderCardColor
+import com.example.nfcdailycheckin.ui.theme.GlassBackground
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.time.format.TextStyle
@@ -116,19 +119,23 @@ fun HomeScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Daily Check-in") },
-                actions = {
-                    IconButton(onClick = onAdd) { Icon(Icons.Default.Add, contentDescription = "Hinzufügen") }
-                    IconButton(onClick = onOpenTechNames) { Icon(Icons.Default.Info, contentDescription = "Info") }
-                    IconButton(onClick = onOpenSettings) { Icon(Icons.Default.Settings, contentDescription = "Einstellungen") }
-                }
-            )
-        },
-        snackbarHost = { SnackbarHost(snackHost) }
-    ) { pad ->
+    val dark = isSystemInDarkTheme()
+    GlassBackground(isDark = dark) {
+        Scaffold(
+            containerColor = Color.Transparent,
+            topBar = {
+                TopAppBar(
+                    title = { Text("Daily Check-in") },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+                    actions = {
+                        IconButton(onClick = onAdd) { Icon(Icons.Default.Add, contentDescription = "Hinzufügen") }
+                        IconButton(onClick = onOpenTechNames) { Icon(Icons.Default.Info, contentDescription = "Info") }
+                        IconButton(onClick = onOpenSettings) { Icon(Icons.Default.Settings, contentDescription = "Einstellungen") }
+                    }
+                )
+            },
+            snackbarHost = { SnackbarHost(snackHost) }
+        ) { pad ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -184,9 +191,9 @@ fun HomeScreen(
 
             item { Spacer(modifier = Modifier.height(6.dp)) }
         }
+        }
     }
 }
-
 @Composable
 private fun StatsCard(
     todayDone: Int,
